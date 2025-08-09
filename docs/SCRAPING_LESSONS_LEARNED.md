@@ -238,6 +238,121 @@ with pd.ExcelWriter(excel_file, engine='openpyxl') as writer:
 
 ---
 
+### 9. 동적 iframe 콘텐츠 처리
+
+#### 문제점
+- iframe이 비어있거나 JavaScript로 동적 로딩되는 콘텐츠
+- 클라이언트사이드 렌더링으로 서버사이드 스크래핑 불가
+- 일반적인 대기 방법(networkidle, timeout)으로 해결 안됨
+
+#### 시도한 해결책들
+```python
+# 1. 다양한 대기 방식
+await frame.wait_for_timeout(5000)
+await frame.wait_for_selector('*', timeout=3000)
+await page.wait_for_load_state('networkidle')
+
+# 2. 동적 로딩 트리거
+await frame.evaluate('() => window.scrollTo(0, 100)')
+await frame.evaluate('() => window.scrollTo(0, document.body.scrollHeight)')
+
+# 3. 네트워크 요청 모니터링
+page.on('request', handle_request)
+page.on('response', handle_response)
+
+# 4. 이벤트 트리거
+buttons = await frame.query_selector_all('button')
+for button in buttons:
+    await button.click()
+```
+
+#### 기술적 한계
+- **빈 iframe**: `<html><head></head><body></body></html>` 형태로 완전히 비어있음
+- **인증 필요**: 로그인이 필요한 콘텐츠일 가능성
+- **JavaScript 의존**: 클라이언트사이드에서만 렌더링되는 SPA 구조
+- **보안 정책**: iframe에서 부모 도메인과의 통신 차단
+
+#### 대안 접근법
+```python
+# 1. API 엔드포인트 직접 호출 (가능하다면)
+response = await page.request.get('https://api.example.com/posts')
+
+# 2. 네트워크 트래픽 분석으로 실제 데이터 소스 찾기
+page.on('response', lambda response: print(response.url))
+
+# 3. 메인 페이지에서 최대한 정보 추출
+main_content = await page.text_content('body')
+
+# 4. 브라우저 개발자 도구로 실제 요청 확인 후 모방
+```
+
+#### 성공 사례와 실패 사례
+**✅ 성공**: 메인 페이지 테이블에서 게시물 목록 (제목, 작성자, 날짜)
+**❌ 실패**: iframe 내부 게시물 본문 내용
+**🔄 부분성공**: 상세 페이지 URL 패턴 파악, HTML 구조 분석
+
+#### 핵심 노하우
+- **단계별 접근**: 가능한 것부터 먼저 수집 (목록 → 상세)
+- **다중 전략**: 여러 방법을 동시에 시도
+- **증거 수집**: 실패해도 HTML, 스크린샷, 네트워크 로그 저장
+- **한계 인정**: 모든 콘텐츠가 스크래핑 가능한 것은 아님
+
+---
+
+### 10. 고급 콘텐츠 추출 전략
+
+#### 문제점
+- 전통적인 DOM 셀렉터로 접근 불가능한 콘텐츠
+- 다층 구조의 복잡한 페이지 (메인 페이지 + iframe + 동적 로딩)
+- 각기 다른 로딩 타이밍과 렌더링 방식
+
+#### 체계적 접근 방법
+```python
+class AdvancedContentExtractor:
+    async def extract_with_fallback(self, page):
+        """단계별 폴백 전략으로 콘텐츠 추출"""
+        
+        # Level 1: 메인 페이지 직접 추출
+        main_content = await self.extract_from_main_page(page)
+        
+        # Level 2: iframe 내부 추출
+        iframe_content = await self.extract_from_iframe(page)
+        
+        # Level 3: 네트워크 요청 분석
+        network_data = await self.extract_from_network(page)
+        
+        # Level 4: JavaScript 실행 결과
+        js_data = await self.extract_from_javascript(page)
+        
+        # 결과 통합
+        return self.merge_extracted_data(
+            main_content, iframe_content, network_data, js_data
+        )
+```
+
+#### 네트워크 기반 추출
+```python
+def handle_response(response):
+    # JSON 응답 캐치
+    if response.headers.get('content-type', '').startswith('application/json'):
+        # 응답 데이터에서 실제 콘텐츠 추출
+        data = await response.json()
+        return extract_content_from_json(data)
+    
+    # HTML 응답에서 숨겨진 데이터
+    if 'text/html' in response.headers.get('content-type', ''):
+        html = await response.text()
+        return extract_hidden_data(html)
+```
+
+#### 성능 최적화
+- **병렬 처리**: 여러 게시물 동시 처리
+- **캐싱**: 중복 요청 방지
+- **타임아웃 관리**: 무한 대기 방지
+- **리소스 정리**: 메모리 누수 방지
+
+---
+
 ## 🎯 핵심 교훈
 
 ### 1. URL 패턴 우선
