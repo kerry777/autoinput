@@ -1,0 +1,151 @@
+{
+  "project": "AutoInput",
+  "version": "0.1.0",
+  "created": "2025-08-09T19:57:23.984697",
+  "phases": [
+    {
+      "id": "critical",
+      "name": "[P0] Critical Priority Tasks",
+      "priority": "critical",
+      "tasks": [
+        {
+          "id": "TASK-1",
+          "name": "사용자 인증 및 권한 관리",
+          "status": "pending",
+          "type": "functional",
+          "subtasks": 4
+        },
+        {
+          "id": "TASK-6",
+          "name": "브라우저 자동화 엔진",
+          "status": "pending",
+          "type": "functional",
+          "subtasks": 5
+        },
+        {
+          "id": "TASK-53",
+          "name": "보안 기능",
+          "status": "pending",
+          "type": "functional",
+          "subtasks": 5
+        }
+      ],
+      "progress": 0,
+      "status": "pending"
+    },
+    {
+      "id": "high",
+      "name": "[P1] High Priority Tasks",
+      "priority": "high",
+      "tasks": [
+        {
+          "id": "TASK-12",
+          "name": "셀렉터 관리 시스템",
+          "status": "pending",
+          "type": "functional",
+          "subtasks": 4
+        },
+        {
+          "id": "TASK-17",
+          "name": "문서 파싱 엔진",
+          "status": "pending",
+          "type": "functional",
+          "subtasks": 5
+        },
+        {
+          "id": "TASK-35",
+          "name": "모니터링 대시보드",
+          "status": "pending",
+          "type": "functional",
+          "subtasks": 5
+        },
+        {
+          "id": "TASK-41",
+          "name": "데이터 검증 시스템",
+          "status": "pending",
+          "type": "functional",
+          "subtasks": 5
+        }
+      ],
+      "progress": 0,
+      "status": "pending"
+    },
+    {
+      "id": "medium",
+      "name": "[P2] Medium Priority Tasks",
+      "priority": "medium",
+      "tasks": [
+        {
+          "id": "TASK-23",
+          "name": "시나리오 레코더",
+          "status": "pending",
+          "type": "functional",
+          "subtasks": 5
+        },
+        {
+          "id": "TASK-29",
+          "name": "스케줄링 시스템",
+          "status": "pending",
+          "type": "functional",
+          "subtasks": 5
+        },
+        {
+          "id": "TASK-47",
+          "name": "API 인터페이스",
+          "status": "pending",
+          "type": "functional",
+          "subtasks": 5
+        },
+        {
+          "id": "TASK-59",
+          "name": "성능 요구사항",
+          "status": "pending",
+          "type": "functional",
+          "subtasks": 4
+        },
+        {
+          "id": "TASK-64",
+          "name": "가용성 요구사항",
+          "status": "pending",
+          "type": "functional",
+          "subtasks": 4
+        },
+        {
+          "id": "TASK-69",
+          "name": "확장성 요구사항",
+          "status": "pending",
+          "type": "functional",
+          "subtasks": 4
+        },
+        {
+          "id": "TASK-74",
+          "name": "사용성 요구사항",
+          "status": "pending",
+          "type": "functional",
+          "subtasks": 4
+        },
+        {
+          "id": "TASK-79",
+          "name": "호환성 요구사항",
+          "status": "pending",
+          "type": "functional",
+          "subtasks": 16
+        }
+      ],
+      "progress": 0,
+      "status": "pending"
+    }
+  ],
+  "statistics": {
+    "total_requirements": 15,
+    "total_tasks": 95,
+    "priority_distribution": {
+      "P0": 3,
+      "P1": 4,
+      "P2": 8
+    },
+    "type_distribution": {
+      "functional": 15
+    }
+  }
+}

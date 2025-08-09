@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoInput - 메뉴별 페이지 설명</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .page {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .page.active {
+            display: block;
+        }
+        .page-title {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .description {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .back-btn {
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .back-btn:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 급여청구 페이지들 -->
+<div id="claim-new" class="page">
+    <h1 class="page-title">📝 신규 청구서 작성</h1>
+    <div class="description">
+        <p><strong>사용자:</strong> 요양원 사무직원</p>
+        <p><strong>목적:</strong> 일일 서비스 제공 내역을 입력하여 청구서 생성</p>
+        <p><strong>주요 기능:</strong> 수급자 선택, 서비스 입력, 청구서 제출</p>
+    </div>
+    <a href="index.html" class="back-btn">메인으로 돌아가기</a>
+</div>
+
+<div id="claim-batch" class="page">
+    <h1 class="page-title">📦 일괄 청구 (월말)</h1>
+    <div class="description">
+        <p><strong>사용자:</strong> 청구 담당자</p>
+        <p><strong>목적:</strong> 월말 전체 수급자 일괄 청구</p>
+        <p><strong>주요 기능:</strong> 대량 데이터 처리, 자동 검증, 일괄 제출</p>
+    </div>
+    <a href="index.html" class="back-btn">메인으로 돌아가기</a>
+</div>
+
+<!-- 청구 현황 페이지들 -->
+<div id="status-pending" class="page">
+    <h1 class="page-title">⏳ 대기중 청구</h1>
+    <div class="description">
+        <p><strong>사용자:</strong> 사무직원</p>
+        <p><strong>목적:</strong> 심사 대기 중인 청구건 확인</p>
+        <p><strong>주요 기능:</strong> 대기 목록, 상태 확인, 수정/취소</p>
+    </div>
+    <a href="index.html" class="back-btn">메인으로 돌아가기</a>
+</div>
+
+<div id="status-rejected" class="page">
+    <h1 class="page-title">❌ 반려된 청구</h1>
+    <div class="description">
+        <p><strong>사용자:</strong> 청구 담당자</p>
+        <p><strong>목적:</strong> 반려 사유 확인 및 재청구</p>
+        <p><strong>주요 기능:</strong> 반려 사유 분석, 수정, 재제출</p>
+    </div>
+    <a href="index.html" class="back-btn">메인으로 돌아가기</a>
+</div>
+
+<!-- 수급자 관리 페이지들 -->
+<div id="beneficiary-list" class="page">
+    <h1 class="page-title">👥 수급자 목록</h1>
+    <div class="description">
+        <p><strong>사용자:</strong> 모든 직원</p>
+        <p><strong>목적:</strong> 전체 수급자 정보 조회</p>
+        <p><strong>주요 기능:</strong> 검색, 필터링, 상세 정보 확인</p>
+    </div>
+    <a href="index.html" class="back-btn">메인으로 돌아가기</a>
+</div>
+
+<div id="beneficiary-add" class="page">
+    <h1 class="page-title">➕ 수급자 등록</h1>
+    <div class="description">
+        <p><strong>사용자:</strong> 입소 담당자</p>
+        <p><strong>목적:</strong> 신규 수급자 정보 등록</p>
+        <p><strong>주요 기능:</strong> 기본정보 입력, 등급 조회, 서류 관리</p>
+    </div>
+    <a href="index.html" class="back-btn">메인으로 돌아가기</a>
+</div>
+
+<!-- 자동화 설정 페이지들 -->
+<div id="auto-schedule" class="page">
+    <h1 class="page-title">⏰ 실행 스케줄</h1>
+    <div class="description">
+        <p><strong>사용자:</strong> 시스템 관리자</p>
+        <p><strong>목적:</strong> 자동 실행 일정 관리</p>
+        <p><strong>주요 기능:</strong> 스케줄 설정, 반복 주기, 실행 조건</p>
+    </div>
+    <a href="index.html" class="back-btn">메인으로 돌아가기</a>
+</div>
+
+<div id="auto-rules" class="page">
+    <h1 class="page-title">📋 자동화 규칙</h1>
+    <div class="description">
+        <p><strong>사용자:</strong> 시스템 관리자</p>
+        <p><strong>목적:</strong> 자동화 조건 및 규칙 설정</p>
+        <p><strong>주요 기능:</strong> 조건 설정, 액션 정의, 예외 처리</p>
+    </div>
+    <a href="index.html" class="back-btn">메인으로 돌아가기</a>
+</div>
+
+<!-- 시스템 설정 페이지들 -->
+<div id="system-certificate" class="page">
+    <h1 class="page-title">🔐 공인인증서 등록</h1>
+    <div class="description">
+        <p><strong>사용자:</strong> 기관 대표자</p>
+        <p><strong>목적:</strong> 자동 로그인용 인증서 관리</p>
+        <p><strong>주요 기능:</strong> 인증서 업로드, 암호 설정, 유효성 검증</p>
+    </div>
+    <a href="index.html" class="back-btn">메인으로 돌아가기</a>
+</div>
+
+<div id="system-backup" class="page">
+    <h1 class="page-title">💾 데이터 백업</h1>
+    <div class="description">
+        <p><strong>사용자:</strong> 시스템 관리자</p>
+        <p><strong>목적:</strong> 데이터 백업 및 복구</p>
+        <p><strong>주요 기능:</strong> 자동 백업, 수동 백업, 복원</p>
+    </div>
+    <a href="index.html" class="back-btn">메인으로 돌아가기</a>
+</div>
+
+<!-- 보고서 페이지들 -->
+<div id="report-monthly" class="page">
+    <h1 class="page-title">📊 월간 청구 분석</h1>
+    <div class="description">
+        <p><strong>사용자:</strong> 경영진</p>
+        <p><strong>목적:</strong> 월별 실적 분석 및 의사결정</p>
+        <p><strong>주요 기능:</strong> 통계 차트, 추이 분석, 비교 리포트</p>
+    </div>
+    <a href="index.html" class="back-btn">메인으로 돌아가기</a>
+</div>
+
+<div id="report-error" class="page">
+    <h1 class="page-title">⚠️ 오류 리포트</h1>
+    <div class="description">
+        <p><strong>사용자:</strong> 청구 담당자</p>
+        <p><strong>목적:</strong> 오류 패턴 분석 및 개선</p>
+        <p><strong>주요 기능:</strong> 오류 통계, 원인 분석, 해결 방안</p>
+    </div>
+    <a href="index.html" class="back-btn">메인으로 돌아가기</a>
+</div>
+
+<!-- 빠른 실행 페이지들 -->
+<div id="quick-today-claim" class="page">
+    <h1 class="page-title">🚀 오늘 급여 청구하기</h1>
+    <div class="description">
+        <p><strong>사용자:</strong> 일일 담당자</p>
+        <p><strong>목적:</strong> 당일 서비스 원클릭 청구</p>
+        <p><strong>주요 기능:</strong> 자동 수집, 일괄 처리, 즉시 제출</p>
+    </div>
+    <a href="index.html" class="back-btn">메인으로 돌아가기</a>
+</div>
+
+<div id="quick-check-status" class="page">
+    <h1 class="page-title">🔍 청구 상태 확인</h1>
+    <div class="description">
+        <p><strong>사용자:</strong> 모든 직원</p>
+        <p><strong>목적:</strong> 실시간 청구 진행 상황 확인</p>
+        <p><strong>주요 기능:</strong> 상태 조회, 진행률, 예상 완료 시간</p>
+    </div>
+    <a href="index.html" class="back-btn">메인으로 돌아가기</a>
+</div>
+
+<!-- 도움말 페이지들 -->
+<div id="help-guide" class="page">
+    <h1 class="page-title">📖 사용 가이드</h1>
+    <div class="description">
+        <p><strong>사용자:</strong> 모든 사용자</p>
+        <p><strong>목적:</strong> 시스템 사용법 학습</p>
+        <p><strong>주요 기능:</strong> 단계별 가이드, 화면 설명, 팁</p>
+    </div>
+    <a href="index.html" class="back-btn">메인으로 돌아가기</a>
+</div>
+
+<div id="help-faq" class="page">
+    <h1 class="page-title">❓ 자주 묻는 질문</h1>
+    <div class="description">
+        <p><strong>사용자:</strong> 모든 사용자</p>
+        <p><strong>목적:</strong> 일반적인 문제 해결</p>
+        <p><strong>주요 기능:</strong> FAQ 목록, 검색, 답변</p>
+    </div>
+    <a href="index.html" class="back-btn">메인으로 돌아가기</a>
+</div>
+
+<script>
+    // URL 해시에 따라 페이지 표시
+    function showPage() {
+        const hash = window.location.hash.substring(1);
+        const pages = document.querySelectorAll('.page');
+        
+        pages.forEach(page => {
+            page.classList.remove('active');
+        });
+        
+        if (hash) {
+            const targetPage = document.getElementById(hash);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+        }
+    }
+
+    // 페이지 로드 및 해시 변경 시 실행
+    window.addEventListener('load', showPage);
+    window.addEventListener('hashchange', showPage);
+</script>
+
+</body>
+</html>

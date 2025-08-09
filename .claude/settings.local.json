@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(python scripts/parse_prd.py:*)",
+      "Bash(python scripts/simple_prd_parser.py:*)",
+      "Bash(python:*)",
+      "WebFetch(domain:web-scraping.dev)",
+      "Bash(pip install:*)",
+      "Bash(dir C:projectsautoinputdocs*.md)",
+      "Bash(mv:*)",
+      "Bash(playwright install:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": []
+  }
+}

@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: autoinput-app
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src:/app/src
+      - ./config:/app/config
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./tests:/app/tests
+    environment:
+      - PYTHONUNBUFFERED=1
+      - ENV=development
+    env_file:
+      - .env
+    networks:
+      - autoinput-network
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    container_name: autoinput-db
+    environment:
+      POSTGRES_DB: autoinput
+      POSTGRES_USER: autoinput_user
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - autoinput-network
+    restart: unless-stopped
+
+networks:
+  autoinput-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

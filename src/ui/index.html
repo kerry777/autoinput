@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoInput - 장기요양보험 청구 자동화</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>AutoInput</h1>
+                <span class="tagline">요양보험 청구 자동화 서비스</span>
+            </div>
+            <nav class="top-nav">
+                <a href="#login">로그인</a>
+                <a href="#signup">회원가입</a>
+                <a href="#contact">문의하기</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <!-- 메인 서비스 메뉴 -->
+            <section class="main-menu">
+                <h2>청구 업무</h2>
+                <div class="menu-grid">
+                    <div class="menu-card">
+                        <h3>📝 급여청구</h3>
+                        <ul>
+                            <li><a href="#claim-new">신규 청구서 작성</a></li>
+                            <li><a href="#claim-batch">일괄 청구 (월말)</a></li>
+                            <li><a href="#claim-correction">청구서 수정</a></li>
+                            <li><a href="#claim-cancel">청구 취소</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="menu-card">
+                        <h3>📊 청구 현황</h3>
+                        <ul>
+                            <li><a href="#status-pending">대기중 청구</a></li>
+                            <li><a href="#status-approved">승인된 청구</a></li>
+                            <li><a href="#status-rejected">반려된 청구</a></li>
+                            <li><a href="#status-report">월별 리포트</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="menu-card">
+                        <h3>👥 수급자 관리</h3>
+                        <ul>
+                            <li><a href="#beneficiary-list">수급자 목록</a></li>
+                            <li><a href="#beneficiary-add">수급자 등록</a></li>
+                            <li><a href="#beneficiary-edit">정보 수정</a></li>
+                            <li><a href="#beneficiary-grade">등급 변경</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="menu-card">
+                        <h3>🏥 기관 정보</h3>
+                        <ul>
+                            <li><a href="#facility-info">기관 정보 관리</a></li>
+                            <li><a href="#facility-staff">직원 관리</a></li>
+                            <li><a href="#facility-service">서비스 유형 설정</a></li>
+                            <li><a href="#facility-cert">인증서 관리</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 자동화 설정 메뉴 -->
+            <section class="automation-menu">
+                <h2>자동화 설정</h2>
+                <div class="menu-grid">
+                    <div class="menu-card">
+                        <h3>⚡ 자동 실행</h3>
+                        <ul>
+                            <li><a href="#auto-schedule">실행 스케줄</a></li>
+                            <li><a href="#auto-rules">자동화 규칙</a></li>
+                            <li><a href="#auto-notification">알림 설정</a></li>
+                            <li><a href="#auto-history">실행 이력</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="menu-card">
+                        <h3>🔧 시스템 설정</h3>
+                        <ul>
+                            <li><a href="#system-connection">포털 연결 설정</a></li>
+                            <li><a href="#system-certificate">공인인증서 등록</a></li>
+                            <li><a href="#system-backup">데이터 백업</a></li>
+                            <li><a href="#system-update">업데이트</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="menu-card">
+                        <h3>📈 보고서</h3>
+                        <ul>
+                            <li><a href="#report-daily">일일 작업 보고서</a></li>
+                            <li><a href="#report-monthly">월간 청구 분석</a></li>
+                            <li><a href="#report-error">오류 리포트</a></li>
+                            <li><a href="#report-export">데이터 내보내기</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="menu-card">
+                        <h3>❓ 도움말</h3>
+                        <ul>
+                            <li><a href="#help-guide">사용 가이드</a></li>
+                            <li><a href="#help-faq">자주 묻는 질문</a></li>
+                            <li><a href="#help-video">동영상 튜토리얼</a></li>
+                            <li><a href="#help-support">기술 지원</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 빠른 실행 메뉴 -->
+            <section class="quick-menu">
+                <h2>빠른 실행</h2>
+                <div class="quick-buttons">
+                    <button onclick="location.href='#quick-today-claim'">
+                        🚀 오늘 급여 청구하기
+                    </button>
+                    <button onclick="location.href='#quick-check-status'">
+                        🔍 청구 상태 확인
+                    </button>
+                    <button onclick="location.href='#quick-download-result'">
+                        📥 심사결과 다운로드
+                    </button>
+                    <button onclick="location.href='#quick-error-check'">
+                        ⚠️ 오류 확인
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-menu">
+                <div class="footer-section">
+                    <h4>서비스</h4>
+                    <ul>
+                        <li><a href="#service-intro">서비스 소개</a></li>
+                        <li><a href="#service-pricing">요금제</a></li>
+                        <li><a href="#service-demo">데모 신청</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>고객지원</h4>
+                    <ul>
+                        <li><a href="#support-notice">공지사항</a></li>
+                        <li><a href="#support-update">업데이트</a></li>
+                        <li><a href="#support-contact">1:1 문의</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>정보</h4>
+                    <ul>
+                        <li><a href="#info-terms">이용약관</a></li>
+                        <li><a href="#info-privacy">개인정보처리방침</a></li>
+                        <li><a href="#info-company">회사소개</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p class="copyright">© 2025 AutoInput. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,17 @@
+repos:
+  - repo: local
+    hooks:
+      - id: check-md-naming
+        name: Check Markdown file naming convention
+        entry: python scripts/check_md_naming.py
+        language: system
+        files: '\.md$'
+        pass_filenames: true
+        
+      - id: update-md-dates
+        name: Update modification dates for changed MD files
+        entry: python scripts/auto_update_md_dates.py
+        language: system
+        files: '\.md$'
+        pass_filenames: true
+        stages: [commit]

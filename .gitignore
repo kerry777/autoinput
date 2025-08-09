@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*.class
+*.so
+.Python
+env/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.env
+.venv
+ENV/
+env/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Data and logs
+data/
+downloads/
+logs/
+*.log
+*.xlsx
+*.csv
+
+# Temporary files
+*.tmp
+temp/
+tmp/
+
+# Credentials and sensitive data
+config/credentials.json
+*.key
+*.pem
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test outputs
+test_output/
+screenshots/
+*.png
+*.jpg
+*.jpeg
+
+# Jupyter
+.ipynb_checkpoints/
