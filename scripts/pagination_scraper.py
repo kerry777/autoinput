@@ -12,6 +12,9 @@ import os
 import json
 import csv
 import time
+import pandas as pd
+from openpyxl import Workbook
+from openpyxl.styles import Font, PatternFill, Alignment
 
 class PaginationScraper:
     """페이지네이션을 처리하는 스크래퍼"""
@@ -186,24 +189,78 @@ class PaginationScraper:
         print(f"  [FAILED] 페이지 이동 실패")
         return False
     
+    async def save_to_excel(self, page_num=None):
+        """엑셀 파일로 저장 (페이지별 시트 추가)"""
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        excel_file = f"{self.data_dir}/pagination_data_{timestamp}.xlsx"
+        
+        if hasattr(self, 'excel_file'):
+            excel_file = self.excel_file
+        else:
+            self.excel_file = excel_file
+        
+        # pandas DataFrame으로 변환
+        if self.all_data:
+            df = pd.DataFrame(self.all_data)
+            
+            # 엑셀 파일이 이미 존재하면 기존 파일에 추가
+            if os.path.exists(excel_file):
+                with pd.ExcelWriter(excel_file, mode='a', engine='openpyxl', if_sheet_exists='overlay') as writer:
+                    # 전체 데이터 시트 업데이트
+                    df.to_excel(writer, sheet_name='전체_데이터', index=False)
+                    
+                    # 현재 페이지 데이터만 별도 시트로 저장
+                    if page_num:
+                        page_data = [d for d in self.all_data if d.get('_page') == page_num]
+                        if page_data:
+                            page_df = pd.DataFrame(page_data)
+                            sheet_name = f'페이지_{page_num}'
+                            page_df.to_excel(writer, sheet_name=sheet_name, index=False)
+                            print(f"  [엑셀] '{sheet_name}' 시트 추가: {len(page_data)}개 항목")
+            else:
+                # 새 파일 생성
+                with pd.ExcelWriter(excel_file, engine='openpyxl') as writer:
+                    # 전체 데이터 시트
+                    df.to_excel(writer, sheet_name='전체_데이터', index=False)
+                    
+                    # 메타데이터 시트
+                    meta_df = pd.DataFrame([self.metadata])
+                    meta_df.to_excel(writer, sheet_name='메타데이터', index=False)
+                    
+                    # 현재 페이지 데이터
+                    if page_num:
+                        page_data = [d for d in self.all_data if d.get('_page') == page_num]
+                        if page_data:
+                            page_df = pd.DataFrame(page_data)
+                            sheet_name = f'페이지_{page_num}'
+                            page_df.to_excel(writer, sheet_name=sheet_name, index=False)
+                            print(f"  [엑셀] '{sheet_name}' 시트 생성: {len(page_data)}개 항목")
+                
+                print(f"\n[저장] 엑셀 파일 생성: {excel_file}")
+        
+        return excel_file
+    
     async def save_results(self):
-        """결과 저장"""
+        """최종 결과 저장"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         
         # 메타데이터 업데이트
         self.metadata['end_time'] = datetime.now().isoformat()
         self.metadata['total_items'] = len(self.all_data)
         
-        # JSON 저장
+        # 최종 엑셀 파일 저장
+        excel_file = await self.save_to_excel()
+        
+        # JSON 저장 (백업용)
         json_file = f"{self.data_dir}/data_{timestamp}.json"
         with open(json_file, 'w', encoding='utf-8') as f:
             json.dump({
                 'metadata': self.metadata,
                 'data': self.all_data
             }, f, ensure_ascii=False, indent=2)
-        print(f"\n[저장] JSON: {json_file}")
+        print(f"[저장] JSON 백업: {json_file}")
         
-        # CSV 저장
+        # CSV 저장 (호환성용)
         if self.all_data:
             csv_file = f"{self.data_dir}/data_{timestamp}.csv"
             
@@ -221,22 +278,31 @@ class PaginationScraper:
                 writer = csv.DictWriter(f, fieldnames=fieldnames)
                 writer.writeheader()
                 writer.writerows(self.all_data)
-            print(f"[저장] CSV: {csv_file}")
+            print(f"[저장] CSV 백업: {csv_file}")
         
         # 요약 파일
         summary_file = f"{self.data_dir}/summary_{timestamp}.txt"
         with open(summary_file, 'w', encoding='utf-8') as f:
             f.write("="*60 + "\n")
-            f.write("   스크래핑 요약\n")
+            f.write("   페이지네이션 스크래핑 요약\n")
             f.write("="*60 + "\n\n")
             f.write(f"URL: {self.metadata['url']}\n")
             f.write(f"시작: {self.metadata['start_time']}\n")
             f.write(f"종료: {self.metadata['end_time']}\n")
             f.write(f"수집 페이지: {self.metadata['pages_scraped']}\n")
             f.write(f"총 항목: {self.metadata['total_items']}\n")
+            f.write(f"\n[저장된 파일]\n")
+            f.write(f"  - 엑셀: {excel_file}\n")
+            f.write(f"  - JSON: {json_file}\n")
+            f.write(f"  - CSV: {csv_file}\n")
             
             if self.all_data:
-                f.write(f"\n[샘플 데이터]\n")
+                f.write(f"\n[페이지별 데이터 수]\n")
+                for i in range(1, self.metadata['pages_scraped'] + 1):
+                    page_count = len([d for d in self.all_data if d.get('_page') == i])
+                    f.write(f"  - 페이지 {i}: {page_count}개 항목\n")
+                
+                f.write(f"\n[샘플 데이터 (첫 항목)]\n")
                 for key, value in self.all_data[0].items():
                     f.write(f"  {key}: {value}\n")
         
@@ -292,6 +358,10 @@ class PaginationScraper:
                     self.all_data.extend(page_data)
                     self.metadata['pages_scraped'] = page_num
                     
+                    # 페이지별로 엑셀에 즉시 저장 (진행상황 확인용)
+                    await self.save_to_excel(page_num)
+                    print(f"  [진행] 페이지 {page_num} 데이터 엑셀 저장 완료")
+                    
                     # 다음 페이지로 이동
                     if page_num < self.max_pages:
                         success = await self.navigate_to_page(page, page_num + 1, pagination_type)
@@ -308,10 +378,14 @@ class PaginationScraper:
                 
                 # 요약 출력
                 print(f"\n{'='*60}")
-                print(f"   완료")
+                print(f"   페이지네이션 스크래핑 완료")
                 print(f"{'='*60}")
                 print(f"수집 페이지: {self.metadata['pages_scraped']}")
                 print(f"총 데이터: {len(self.all_data)}개")
+                print(f"\n[페이지별 수집 현황]")
+                for i in range(1, self.metadata['pages_scraped'] + 1):
+                    page_count = len([d for d in self.all_data if d.get('_page') == i])
+                    print(f"  페이지 {i}: {page_count}개 항목")
                 
                 print("\n[INFO] 브라우저가 10초 후 닫힙니다...")
                 await page.wait_for_timeout(10000)
