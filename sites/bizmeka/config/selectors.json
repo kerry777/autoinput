@@ -1,0 +1,46 @@
+{
+  "mail_system": {
+    "mail_button": "a[href*=\"mail\"]",
+    "inbox_dynamic": "[id^=\"mnu_Inbox_\"]",
+    "inbox_alternatives": [
+      "a[onclick*=\"Inbox\"]",
+      "a:has-text(\"받은메일함\")",
+      ".mbutton:has-text(\"받은메일함\")"
+    ]
+  },
+  "mail_list": {
+    "mail_items": "li.m_data",
+    "unread_items": "li.m_data.unread",
+    "checkbox": "input.mailcb",
+    "sender": "p.m_sender",
+    "subject": "p.m_subject", 
+    "date": "span.m_date",
+    "size": "span.m_size",
+    "star": "button.btn_star"
+  },
+  "pagination": {
+    "page_links": "a:has-text(\"{page_num}\")",
+    "next_button": "a[title=\"다음\"]",
+    "prev_button": "a[title=\"이전\"]"
+  },
+  "popups": {
+    "close_buttons": [
+      "button[aria-label=\"Close\"]",
+      "button.ui-dialog-titlebar-close",
+      "span.ui-icon-closethick",
+      "button[title=\"닫기\"]",
+      "button:has-text(\"확인\")"
+    ],
+    "overlays": [
+      "div.ui-widget-overlay",
+      ".modal-overlay",
+      ".popup-overlay"
+    ]
+  },
+  "data_attributes": {
+    "mail_id": "data-key",
+    "from_name": "data-fromname", 
+    "from_address": "data-fromaddr",
+    "directory": "data-dirkey"
+  }
+}

@@ -45,7 +45,10 @@
       "Bash(unzip:*)",
       "Bash(set LOGIN_USER=kilmoon@mek-ics.com)",
       "Bash(set LOGIN_PASS=moon7410!@)",
-      "Bash(cp:*)"
+      "Bash(cp:*)",
+      "Bash(powershell:*)",
+      "Bash(timeout:*)",
+      "Bash(taskkill:*)"
     ],
     "deny": []
   }

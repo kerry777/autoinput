@@ -1,0 +1,22 @@
+{
+  "site_info": {
+    "name": "MEK-ICS ERP",
+    "description": "MEK-ICS 회사 ERP 시스템",
+    "main_url": "https://it.mek-ics.com",
+    "login_url": "https://it.mek-ics.com/mekics/login/login.do"
+  },
+  "credentials": {
+    "username": "20210101",
+    "password": "1565718"
+  },
+  "timeouts": {
+    "default": 3000,
+    "login": 5000,
+    "navigation": 3000
+  },
+  "browser": {
+    "headless": false,
+    "locale": "ko-KR",
+    "timezone": "Asia/Seoul"
+  }
+}

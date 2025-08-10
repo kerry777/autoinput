@@ -89,29 +89,35 @@ class MailScraperFinal:
         scraped_count = 0
         
         try:
-            # JavaScript로 직접 데이터 추출 - null 체크 추가
+            # JavaScript로 직접 데이터 추출 - 테이블 구조 기반
             mail_data = await page.evaluate('''() => {
                 const mails = [];
                 
-                // 모든 테이블 행 찾기
+                // 메일 테이블 행 찾기 (체크박스가 있는 행)
                 const rows = document.querySelectorAll('tr');
                 
                 for (let row of rows) {
+                    // 체크박스가 있는 행만 처리
+                    const checkbox = row.querySelector('input[type="checkbox"]');
+                    if (!checkbox || checkbox.id === 'checkAll') continue;
+                    
                     const cells = row.querySelectorAll('td');
-                    if (cells.length < 5) continue;
+                    if (cells.length < 7) continue;
                     
-                    const cellTexts = [];
-                    for (let cell of cells) {
-                        cellTexts.push(cell.innerText ? cell.innerText.trim() : '');
-                    }
+                    // 메일 데이터 추출
+                    const mailInfo = {
+                        checkbox: cells[0]?.innerText?.trim() || '',
+                        star: cells[1]?.innerText?.trim() || '',
+                        attachment: cells[2]?.innerText?.trim() || '',
+                        sender: cells[3]?.innerText?.trim() || '',
+                        subject: cells[4]?.innerText?.trim() || '',
+                        date: cells[5]?.innerText?.trim() || '',
+                        size: cells[6]?.innerText?.trim() || ''
+                    };
                     
-                    // 날짜 패턴으로 메일 행 확인
-                    const hasDate = cellTexts.some(text => 
-                        text.includes('2025-') || text.includes('2024-') || text.includes('2023-')
-                    );
-                    
-                    if (hasDate && cellTexts.length >= 5) {
-                        mails.push(cellTexts);
+                    // 보낸사람과 제목이 있는 경우만 추가
+                    if (mailInfo.sender || mailInfo.subject) {
+                        mails.push(mailInfo);
                     }
                 }
                 
@@ -122,42 +128,13 @@ class MailScraperFinal:
             if not mail_data:
                 mail_data = []
             
-            for row_data in mail_data:
+            for mail_info in mail_data:
                 try:
-                    # 컬럼 위치 찾기
-                    date_idx = -1
-                    for i, text in enumerate(row_data):
-                        if '20' in text and '-' in text and len(text) > 10:
-                            date_idx = i
-                            break
-                    
-                    if date_idx == -1:
-                        continue
-                    
-                    # 날짜 기준으로 다른 컬럼 추정
-                    sender = ''
-                    subject = ''
-                    date = row_data[date_idx] if date_idx >= 0 else ''
-                    size = ''
-                    
-                    # 일반적으로 날짜 앞에 보낸사람과 제목이 있음
-                    if date_idx >= 2:
-                        # 충분한 컬럼이 있을 때
-                        sender = row_data[date_idx - 2]
-                        subject = row_data[date_idx - 1]
-                    elif date_idx == 1:
-                        # 날짜가 두 번째 컬럼일 때
-                        subject = row_data[0]
-                    
-                    # 날짜 뒤에 크기가 있을 수 있음
-                    if date_idx < len(row_data) - 1:
-                        size = row_data[date_idx + 1]
-                    
-                    # @ 기호가 있으면 이메일 주소일 가능성
-                    for text in row_data:
-                        if '@' in text and not sender:
-                            sender = text
-                            break
+                    # 직접 매핑된 데이터 사용
+                    sender = mail_info.get('sender', '')
+                    subject = mail_info.get('subject', '')
+                    date = mail_info.get('date', '')
+                    size = mail_info.get('size', '')
                     
                     # 데이터 저장
                     if subject or sender:
@@ -167,7 +144,6 @@ class MailScraperFinal:
                             '제목': subject,
                             '날짜': date,
                             '크기': size,
-                            '원본': ' | '.join(row_data[:7]),  # 디버그용
                             '수집시간': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                         })
                         scraped_count += 1
@@ -176,6 +152,7 @@ class MailScraperFinal:
                             print_status('info', f'수집: {sender[:30]} - {subject[:40]}')
                 
                 except Exception as e:
+                    self.logger.error(f"데이터 파싱 오류: {e}")
                     continue
             
             print_status('success', f'{page_num}페이지: {scraped_count}개 메일 수집')
