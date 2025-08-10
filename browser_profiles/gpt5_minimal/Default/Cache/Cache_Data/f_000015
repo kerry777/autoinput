@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> 
+<![endif]-->
+<!--[if gt IE 8]>
+<html class="no-js">
+<![endif]-->
+<!--[if !IE]> -->
+<html class="no-js" lang="ko">
+<!-- <![endif]-->
+<head>
+	<meta name="robots" content="noindex">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="user-scalable=no, initial-scale=1.0,	maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+	<title>KT bizmeka EZ</title>
+	<link rel="stylesheet" href="/css/common.css">
+<link rel="stylesheet" href="/css/sprologin.css">
+<!-- favicon -->
+<link rel="shortcut icon" href="/images/common/favicon.ico">
+<script type="text/javascript">var contextRoot = "";</script>
+<script type="text/javascript" src="/js/langResource/en.js?v001"></script>
+
+<!--[if lt IE 9]>
+<script type="text/javascript" src="https://ezportal.bizmeka.com/js/jquery-1.11.3.min.js"></script>
+<![endif]-->
+<!--[if gte IE 9]>
+<script type="text/javascript" src="https://ezportal.bizmeka.com/js/jquery-2.1.4.min.js"></script>
+<![endif]-->
+<!--[if !IE]> -->
+<script type="text/javascript" src="https://ezportal.bizmeka.com/js/jquery-2.1.4.min.js"></script>
+<!-- <![endif]-->
+
+<script type="text/javascript">jQuery.migrateMute = true;</script>
+<script type="text/javascript" src="https://ezportal.bizmeka.com/js/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="https://ezportal.bizmeka.com/js/plugins.js"></script>
+<script type="text/javascript" src="https://ezportal.bizmeka.com/js/jquery-ui-1.10.4/js/jquery-ui-1.10.4.min.js"></script> 
+<script type="text/javascript" src="https://ezportal.bizmeka.com/js/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://ezportal.bizmeka.com/js/commonSProject.js"></script>
+<script type="text/javascript" src="/JavaScriptServlet"></script><script type="text/javascript">
+		(function($) {
+			logoImageError = function(img) {
+				$(img).replaceWith('<span class="logo">KT bizmeka EZ</span>');
+			};
+		})(jQuery);
+	</script>
+</head>
+<body class="methods-page" data-page="methods">
+	<div id="sidemenu">
+		<h1 class="blind">메뉴영역</h1>
+		<div class="side-bar">
+			<img src="https://ezportal.bizmeka.com/companyImage/T30634/T30634_100_22f1e043c2964949b0c611226476c3b6.png" onerror="logoImageError(this)"/>
+				</div>
+		<div class="sub-area">
+			<ul>			
+				<li><a href="/main/main.do">홈페이지</a></li>	
+				<li><a href="/store/main/storemainView.do">서비스스토어</a></li>	
+			</ul>
+		</div>
+	</div>
+	<script type="text/javascript">
+
+
+var limitMiliSecond = 120000;
+var interval, startTimer;
+
+var isCertificated = false;
+
+
+(function($){
+	startTimer = function (countdown) {
+	    var timer   = countdown,
+	    	endTime = new Date();
+	    
+	    endTime.setSeconds(endTime.getSeconds() + timer);
+	    var endTimeSeconds = endTime.getTime();
+	    
+	    
+	    clearInterval(interval);
+	    
+	    $("#btnCertKeyConfirm").addClass("active");
+	    $("#inputCertKey").prop("readonly", false).val("");
+	    
+	    interval = setInterval(function () {
+	    	timer = Math.floor((endTimeSeconds - new Date().getTime())/1000);
+	    	
+	        displaykeyinTime(timer);
+
+	        if (timer <= 0) {
+	        	displaykeyinTime(0);
+	            clearInterval(interval);
+	            
+	            $("#btnCertKeyConfirm").removeClass("active");
+	            $("#inputCertKey").prop("readonly", true);
+	        }
+	    }, 1000);
+	};
+	
+	function displaykeyinTime(time) {
+		var minutes = parseInt(time / 60, 10),
+        	seconds = parseInt(time % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        $("#countDown").text(minutes + ":" + seconds);
+	}
+	
+	function initialCaptcha() {
+		$("#botCaptcha_CaptchaIconsDiv").css("display", "none !important");
+	}
+	
+	$(document).ready(function(){
+
+		var loginBg = $.cookie("loginBg");
+    	
+   		if(loginBg != undefined){
+   			$("div#block-login").attr("style", 'background-image: url(https://ezportal.bizmeka.com/companyImage/' + loginBg.replace("s", "") +') !important; background-size: cover !important;');
+   		}
+   		
+		displaykeyinTime(Math.floor(limitMiliSecond/1000));
+		
+		$('#certKey').focus();
+		
+		initialCaptcha();
+		
+		$("ul.nav-tabs3 a").on("click", function (e) {
+			e.preventDefault();
+			
+			if($(this).parent().hasClass("disabled")) {
+				alert("인증번호 로그인을 위한 핸드폰 번호 및 이메일 정보가 없어 인증번호 로그인을 이용할 수 없습니다.");
+			} else {
+				$(this).tab("show");
+			}
+		})
+		
+		
+		
+		$("form").submit(function() {
+			var $input = $("input[name=certKey], input[name=answerData]", this),
+				val = $input.val();
+			
+			if(val.length == 6) {
+				$("body").loading();
+				
+				if($("input[name=captchaId]", this).is("*")) {	// chptcha 인증이면
+					var captcha = $("#answerData").get(0).Captcha;
+					$("input[name=captchaId]", this).val(captcha.Id);
+					$("input[name=instanceId]", this).val(captcha.InstanceId);
+				} else {
+					if(!isCertificated) {
+						alert("인증번호를 확인해주세요.");
+						return false;
+					}
+				}
+				
+				this.submit();
+			} else {
+				alert("6자리로 입력해 주세요.");
+			}
+		});
+		
+		$("a[name=btnSubmit]").click(function(event) {
+			var $form = $(this).closest("form");
+			$("#bannerUrl").val("");
+			$form.submit();
+		});
+		
+		$("#inputCertKey, #answerData").keypress( function(event) {
+			if(event.which == 13) {
+				if($(this).attr("id") == "inputCertKey") {
+					$("#btnCertKeyConfirm").click();
+				} else {
+ 					$(this).closest("form").submit();
+				}
+ 				
+ 				return false;
+			}
+		});
+		
+		$("#btnSendMobile, #btnSendMail").click(function(){
+			isCertificated = false;
+			
+			var isMail = $(this).attr("id") == "btnSendMail";
+			
+			var startDate = new Date();
+			$.get(isMail ? "/sendCertKeyToMail.do" : "/sendCertKeyToMobile.do")
+				.done(function(result) {
+					if(result.res != 0) {
+						alert(result.msg);
+						if(result.res == -1) {
+							location.replace("/loginForm.do");
+						}
+					} else {
+						var endDate = new Date();
+						var second = Math.floor((limitMiliSecond - (endDate.getTime() - startDate.getTime())) / 1000);
+						
+						startTimer(second);
+						alert(isMail ? "ki*****@g****.com으로 발송하였습니다." : "010****9497으로 발송하였습니다.");
+					}
+				})
+				.fail(function(xhr) {
+					var json = $.parseJSON(xhr.responseText);
+					alert(json.errMsg);
+				});
+		});
+		
+		$("#btnCertKeyConfirm").click(function() {
+			if($(this).hasClass("active")) {
+				var val = $("#inputCertKey").val();
+				if(val.length != 6) {
+					alert("6자리로 입력해 주세요.");
+					return false;
+				}
+				
+				$("body").loading();
+				$.get("/confirmCertKey.do", {certKey:val})
+					.done(function(result) {
+						if(result.res != 0) {
+							alert(result.msg);
+							if(result.res == -1) {
+								location.replace("/loginForm.do");
+							}
+						}else{
+							isCertificated = true;
+							
+							clearInterval(interval);
+				            
+				            $("#btnCertKeyConfirm").removeClass("active");
+				            $("#inputCertKey").prop("readonly", true);
+				            
+				            alert("인증번호가 일치합니다. 로그인 해주세요.");
+						} 
+					}).fail(function(xhr) {
+						var json = $.parseJSON(xhr.responseText);
+						alert(json.errMsg);
+					}).always(function() {
+						$("body").loaded();
+					});
+			} else {
+				alert("핸드폰 또는 이메일로 인증번호 받기를 해주세요.");
+			}
+		});
+		
+		$("#captchaBtnReload").click(function(event) {
+			event.preventDefault();
+			$("#answerData").get(0).Captcha.ReloadImage();
+		});
+		
+		$("#captchaBtnSound").click(function(event) {
+			event.preventDefault();
+			$("#answerData").get(0).Captcha.PlaySound();
+		});
+	
+		$("a[data-role='banner']").on("click", function(){
+ 			var itemId = $(this).data("bannerId");
+ 			var itemUrl = $(this).data("bannerUrl");
+ 			var itemOption = $(this).data("bannerOption");
+ 			var windowName = $(this).data("bannerName");
+			
+
+ 			$.ajax({
+ 				url : "/support/accesslog/createAccessLog.do",
+ 				data: {
+ 					"systemId" : "SO",
+ 					"itemId" : itemId
+ 				},
+ 				type : "post",
+ 				success : function(data){},
+ 				error : function(xhr){}
+ 			}); 			
+ 			if(itemOption == ""){
+				var openNewWindow = window.open("about:blank");
+				openNewWindow.location.href = itemUrl;	
+			}else{
+	 			spro.popupOpen(itemUrl,itemOption,windowName);
+			}
+ 			
+		});
+		
+	});
+	
+	goBanner = function(url, msg){
+		var $form = $("#loginVerify");
+		$("#bannerUrl").val(url);
+		var htmlMsg = "";
+		if(!isCertificated) {
+			htmlMsg = "<span>인증번호 확인 후 <span style='color: #e31010; text-decoration: underline;'>"+msg+"</span></span>";				
+			loginAlertMsg(htmlMsg);
+			return false;
+		}
+		$form.submit();
+		//location.href = "https://newstg.lglifecare.com/OpenLink/1174";	
+	};
+	
+	loginAlertMsg = function(htmlMsg){
+		$("#modalMsg").empty();
+		$("#modalMsg").append(htmlMsg);			
+		$("#divLoginAlertMsg").modal("show");
+	} 
+	
+	
+	/* var bannerMaxView = 1;
+	var view = 0 
+	changeBanner = function(){		
+		if(view == bannerMaxView){
+			view = 0	
+		}else{
+			view++;
+		}
+		$("div.login-banner a").hide();
+		$("div.login-banner a:eq("+view+")").fadeIn();					
+	}
+
+	//배너 자동변경 타이머
+	var timer = setInterval(function (){changeBanner()}, 5000); */
+
+	
+})(jQuery);
+
+function newWindowOpen(url){
+	window.open(url, "_blank");
+}
+
+</script>
+
+<div class="login-main">
+
+<div id="block-login"></div>
+
+<div id="login-container" class="login-new ty1" style="border-radius: 12px;">
+	<div class="login-form ty1" style="border-radius: 12px 12px 0 0;box-shadow:none;">
+		<div class="login-tab-top-wrap">
+			<ul class="nav nav-tabs3">
+				<li class="active">인증번호 로그인</li>
+				<!-- 
+				<li class="active"><a href="#secondVertify">인증번호 로그인</a></li>
+				<li><a href="#captchaVertify">캡챠 로그인</a></li> -->
+			</ul>
+		</div>
+		
+		<div class="clearboth"></div>
+
+		<div class="tab-content">
+			<div id="secondVertify" class="form-area tab-pane active">
+				<div class="join-guide" style="margin-top:5px;">
+						<div class="t2 mt0">인증번호 로그인이란?</div>
+						<ul>
+							<li>최초 1회 사용자 인증 후 다음 로그인부터는 <span class="text-point strong">캡차(보안문자)없이</span> 아이디/비밀번호 입력만으로 로그인 하는 방식 입니다.</li>
+						</ul>
+					</div>
+				<form id="loginVerify" action="/loginVerify.do" method="post" onsubmit="return false">
+					<input type="hidden" name="bannerUrl" id="bannerUrl" />
+					<div class="join-guide mt30">
+						1회 사용자 인증하기<div class="form-wrap">
+							<div class="btn-wrap">
+								<ul>
+									<li><button id="btnSendMobile" class="btn ty1" type="button"><i class="fa fa-mobile fa-lg"></i> 핸드폰으로 인증번호 받기</button></li><li><button id="btnSendMail" class="btn ty1" type="button"><i class="fa fa-envelope-o fa-lg"></i> 이메일로 인증번호 받기</button></li></ul>
+							</div>
+							<div class="certi-num-wrap">
+								<span class="certi-num-input-wrap">
+									<input type="text" id="inputCertKey" name="certKey" placeholder="인증번호">
+									<span>유효시간<b id="countDown">02:36</b></span>
+								</span>
+								<button id="btnCertKeyConfirm" class="btn ty2" type="button">인증번호 확인</button>
+							</div>
+						</div>
+					</div>
+					<div class="login-info-wrap">
+							<label><input type="checkbox" name="browserCertify" value="Y" class="mr5" checked="checked">다음부터는 아이디/비밀번호 입력만으로 로그인 하겠습니다</label>
+							<div>※ 쿠키가 삭제되는 경우 다시 사용자 인증을 거쳐야 합니다.</div>
+						</div>
+					<a href="#" name="btnSubmit" class="login-btn ty1">로그인</a>
+				</form>
+			</div>
+	
+			<div id="captchaVertify" class="form-area tab-pane">
+				<div class="join-guide mt20">
+					<div class="t2 mt0">캡챠 로그인이란?</div>
+					<ul>
+						<li>캡챠(보안문자)를 <span class="text-point strong">매번 입력</span>하여 로그인하는 방식입니다.<br>(기존 방식과 동일)</li>
+					</ul>
+				</div>
+				
+				<form action="/loginVerify.do" method="post" onsubmit="return false">
+					<div class="join-guide mt30">
+						<div class="t2 mt0">캡챠(보안문자) 입력하기</div>
+						<div class="form-wrap">
+							
+								<div class="captcha-area ty1">
+									<div class="code">
+										
+
+  <link type="text/css" rel="stylesheet" href="/botdetectcaptcha?get=layout-stylesheet" />
+  <div class="BDC_CaptchaDiv " id="botCaptcha_CaptchaDiv" style="width: 320px !important; height: 70px !important; "><!--
+ --><div class="BDC_CaptchaImageDiv" id="botCaptcha_CaptchaImageDiv" style="width: 290px !important; height: 70px !important;"><!--
+   --><a href="//captcha.org/captcha.html?java" title="What is the BotDetect Java CAPTCHA Validation?" id="botCaptcha_HelpLink"><img class="BDC_CaptchaImage" id="botCaptcha_CaptchaImage" src="/botdetectcaptcha?get=image&amp;c=botCaptcha&amp;t=9256710aa541409db9720b0f27ba03fc" alt="Retype the CAPTCHA code from the image" /></a><!--
+ --></div><!--
+ --><div class="BDC_CaptchaIconsDiv" id="botCaptcha_CaptchaIconsDiv" style="width: 24px !important;"><!--
+   --><a rel="nofollow" class="BDC_SoundLink" id="botCaptcha_SoundLink" href="/botdetectcaptcha?get=sound&amp;c=botCaptcha&amp;t=9256710aa541409db9720b0f27ba03fc" title="Speak the CAPTCHA code"><img class="BDC_SoundIcon" id="botCaptcha_SoundIcon" src="/botdetectcaptcha?get=sound-icon" alt="Speak the CAPTCHA code" /></a><!--
+   --><div class="BDC_Placeholder" id="botCaptcha_AudioPlaceholder">&nbsp;</div><!-- --></div>
+   <script src="/botdetectcaptcha?get=script-include" type="text/javascript"></script>
+   <script src="/botdetectcaptcha?get=init-script-include&amp;c=botCaptcha&amp;t=9256710aa541409db9720b0f27ba03fc" type="text/javascript"></script>
+   <input type="hidden" id="BDC_VCID_botCaptcha" name="BDC_VCID_botCaptcha" value="9256710aa541409db9720b0f27ba03fc" />
+   <input type="hidden" id="BDC_BackWorkaround_botCaptcha" name="BDC_BackWorkaround_botCaptcha" value="0" />
+  </div>
+</div>
+									<ul class="btn">
+										<li>
+											<a href="#" id="captchaBtnReload">
+												<img src="/images/common/ic_refresh.png" alt="새로고침"> 새로고침</a>
+										</li>
+										<li>
+											<a href="#" id="captchaBtnSound">
+												<img src="/images/common/ic_voice.png" alt="음성듣기"> 음성듣기</a>
+										</li>
+									</ul>
+									<input class="" type="text" id="answerData" name="answerData" value="" placeholder="보안문자 입력" maxlength="6">
+									<input type="hidden" name="captchaId" value=""/>
+									<input type="hidden" name="instanceId" value=""/>
+								</div>
+						</div>
+					</div>
+					<a href="#" name="btnSubmit" class="login-btn ty1">로그인</a>
+				</form>
+			</div>
+		</div>
+	</div>
+ 	
+	<div class="login-banner">
+		<a href="#" onclick="spro.popupOpen('https://www.bizmeka.com/html/banner/upgradePopup.html',{width:914, height:800},'')"><img src="/images/banner/upgrade_login_banner1.png" alt="" style="border-radius:0 0 10px 10px;"></a>
+		</div>
+</div>
+
+<div id="divLoginAlertMsg" class="modal fade">
+	<div class="modal-dialog" style="width:430px;">
+		<div class="modal-content">
+			<div class="modal-login-header">
+				<h2 class="modal-login-title">안내</h2>
+				<div class="modal-login-close">
+					<a href="javascript:void(0)" data-dismiss="modal"><i class="icon-login pop-close"></i></a>
+				</div>	
+			</div>
+			<div id="modalMsg" style="padding: 10px 10px 10px 10px;font-weight: 600;line-height: 2.4;">
+			</div>
+		</div>
+	</div>
+</div>
+
+</div><div id="footer">
+		<p>Copyright © 2015 kt corp. All rights reserved.</p>
+		<div class="link">
+			<a href="/customer/policyView.do?locale=ko">이용약관</a>
+			<a href="/customer/policyCustomerView.do?locale=ko">개인정보취급방침</a>
+		</div>
+	</div>
+</body>
+</html>

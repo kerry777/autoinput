@@ -1,0 +1,41 @@
+# 환경 설정 (중요!)
+.env
+
+# 쿠키 및 세션 데이터
+data/cookies.json
+data/cookies_*.json
+data/session/
+
+# 로그 파일
+data/logs/
+*.log
+
+# 브라우저 프로필
+browser_profiles/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 임시 파일
+*.tmp
+*.bak
+*.backup
+~*

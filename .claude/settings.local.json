@@ -37,7 +37,15 @@
       "Bash(chcp:*)",
       "Bash(git rm:*)",
       "Bash(del nul)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(move:*)",
+      "Bash(scriptsstart_chrome_debug.bat)",
+      "Bash(cmd /c:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(unzip:*)",
+      "Bash(set LOGIN_USER=kilmoon@mek-ics.com)",
+      "Bash(set LOGIN_PASS=moon7410!@)",
+      "Bash(cp:*)"
     ],
     "deny": []
   }
