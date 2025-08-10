@@ -14,6 +14,19 @@
 
 ## 🔐 로그인 정보
 
+```yaml
+Authentication:
+  URL: https://ezsso.bizmeka.com/loginForm.do
+  Method: POST
+  Type: Form
+  Selectors:
+    username: 'input[name="userId"]'
+    password: 'input[name="userPw"]'
+    submit: 'button.login_btn'
+  Success_URL: https://www.bizmeka.com/app/main.do
+  2FA_Required: true
+```
+
 ### 인증 방식
 - **기본 로그인**: ID/Password
 - **2차 인증 (2FA)**: 자동화 도구 감지시 필수 발생

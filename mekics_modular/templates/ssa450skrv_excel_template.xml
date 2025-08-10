@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE excelDownload PUBLIC "-//TLab//DTD excep upload config XML V1.0//EN" "../ExcelDownload/dtd/excel-download.dtd">
+<workBook name="ssa450skrv" desc="매출현황 조회">
+  <sheet name="매출현황 조회" desc="매출현황 조회" startRow="2" readService="ssa450skrvService.selectList1" groupField="SALE_CUSTOM_NAME" isSummary="true" isGroupSummary="false">
+    <!-- Keep key fields; it's okay if not exhaustive; server will ignore extras -->
+    <header col="0"  text="매출월" maxRows="1" width="80" rowspan="1"  />
+    <header col="1"  text="매출일" maxRows="1" width="80" rowspan="1"  />
+    <header col="2"  text="수주번호" maxRows="1" width="106" rowspan="1" />
+    <header col="3"  text="매출번호" maxRows="1" width="110" rowspan="1" />
+    <header col="4"  text="품목코드" maxRows="1" width="123" rowspan="1" />
+    <header col="5"  text="품목명" maxRows="1" width="150" rowspan="1" />
+    <header col="6"  text="규격"   maxRows="1" width="123" rowspan="1" />
+    <header col="7"  text="LOT번호" maxRows="1" width="100" rowspan="1" />
+    <header col="8"  text="화폐"   maxRows="1" width="60"  rowspan="1" />
+    <header col="9"  text="환율"   maxRows="1" width="60"  rowspan="1" />
+    <header col="10" text="단위"   maxRows="1" width="53"  rowspan="1" />
+    <header col="11" text="입수"   maxRows="1" width="53"  rowspan="1" />
+    <header col="12" text="매출량" maxRows="1" width="80"  rowspan="1" />
+    <header col="13" text="단가"   maxRows="1" width="113" rowspan="1" />
+    <header col="14" text="매출액(외화)" maxRows="1" width="113" rowspan="1" />
+    <header col="15" text="세액"   maxRows="1" width="100" rowspan="1" />
+    <header col="16" text="매출계" maxRows="1" width="113" rowspan="1" />
+    <header col="17" text="매출액(자사)" maxRows="1" width="113" rowspan="1" />
+    <header col="18" text="세액(자사)" maxRows="1" width="113" rowspan="1" />
+    <header col="19" text="매출계(자사)" maxRows="1" width="113" rowspan="1" />
+    <header col="20" text="거래처코드" maxRows="1" width="80" rowspan="1" />
+    <header col="21" text="거래처명"   maxRows="1" width="120" rowspan="1" />
+    <header col="22" text="영업담당"   maxRows="1" width="100" rowspan="1" />
+    <header col="23" text="사업장"     maxRows="1" width="100" rowspan="1" />
+    <header col="24" text="프로젝트번호" maxRows="1" width="187" rowspan="1" />
+    <header col="25" text="프로젝트명"   maxRows="1" width="120" rowspan="1" />
+    <!-- fields mapping -->
+    <field col="0"  title="매출월"       name="SALE_MONTH"      width="80" align="left"  type="string"  format="" />
+    <field col="1"  title="매출일"       name="SALE_DATE"       width="80" align="center" type="string" format="Y.m.d" />
+    <field col="2"  title="수주번호"     name="ORDER_NUM"       width="106" align="left" type="string" format="" />
+    <field col="3"  title="매출번호"     name="BILL_NUM"        width="110" align="left" type="string" format="" />
+    <field col="4"  title="품목코드"     name="ITEM_CODE"       width="123" align="left" type="string" format="" />
+    <field col="5"  title="품목명"       name="ITEM_NAME"       width="150" align="left" type="string" format="" />
+    <field col="6"  title="규격"         name="SPEC"            width="123" align="left" type="string" format="" />
+    <field col="7"  title="LOT번호"      name="LOT_NO"          width="100" align="left" type="string" format="" />
+    <field col="8"  title="화폐"         name="MONEY_UNIT"      width="60"  align="center" type="string" format="" />
+    <field col="9"  title="환율"         name="EXCHG_RATE_O"    width="60"  align="right" type="number" format="0,000.0000" />
+    <field col="10" title="단위"         name="SALE_UNIT"       width="53"  align="center" type="string" format="" />
+    <field col="11" title="입수"         name="TRANS_RATE"      width="53"  align="right" type="string" format="" />
+    <field col="12" title="매출량"       name="SALE_Q"          width="80"  align="right" type="integer" format="0,000" summaryType="sum" />
+    <field col="13" title="단가"         name="SALE_P"          width="113" align="right" type="number"  format="0,000.00" />
+    <field col="14" title="매출액(외화)" name="SALE_LOC_AMT_F"  width="113" align="right" type="number"  format="0,000.00" summaryType="sum" />
+    <field col="15" title="세액"         name="TAX_AMT_O"       width="100" align="right" type="integer" format="0,000" summaryType="sum" />
+    <field col="16" title="매출계"       name="SUM_SALE_AMT"    width="113" align="right" type="integer" format="0,000" summaryType="sum" />
+    <field col="17" title="매출액(자사)" name="SALE_AMT_WON"    width="113" align="right" type="integer" format="0,000" summaryType="sum" />
+    <field col="18" title="세액(자사)"   name="TAX_AMT_WON"     width="113" align="right" type="integer" format="0,000" summaryType="sum" />
+    <field col="19" title="매출계(자사)" name="SUM_SALE_AMT_WON" width="113" align="right" type="integer" format="0,000" summaryType="sum" />
+    <field col="20" title="거래처코드"   name="SALE_CUSTOM_CODE" width="80" align="left" type="string"  format="" />
+    <field col="21" title="거래처명"     name="SALE_CUSTOM_NAME" width="120" align="left" type="string" format="" />
+    <field col="22" title="영업담당"     name="SALE_PRSN"        width="100" align="left" type="string" format="" />
+    <field col="23" title="사업장"       name="DIV_CODE"         width="100" align="left" type="string" format="" />
+    <field col="24" title="프로젝트번호" name="PROJECT_NO"       width="187" align="left" type="string" format="" />
+    <field col="25" title="프로젝트명"   name="PJT_NAME"         width="120" align="left" type="string" format="" />
+  </sheet>
+</workBook>

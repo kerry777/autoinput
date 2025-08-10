@@ -1,34 +1,11 @@
 {
+  "credentials": {
+    "username": "kilmoon@mek-ics.com",
+    "password": "moon7410!@"
+  },
   "site_info": {
-    "name": "Bizmeka 웹메일",
-    "main_url": "https://bizmeka.com",
-    "mail_url": "https://ezwebmail.bizmeka.com/mail/list.do",
-    "description": "기업용 웹메일 서비스"
-  },
-  "browser": {
-    "headless": false,
-    "locale": "ko-KR",
-    "timezone": "Asia/Seoul",
-    "viewport": {
-      "width": 1920,
-      "height": 1080
-    }
-  },
-  "timeouts": {
-    "page_load": 10000,
-    "element_wait": 5000,
-    "popup_close": 3000,
-    "navigation": 3000
-  },
-  "scraping": {
-    "max_pages": 3,
-    "retry_attempts": 3,
-    "delay_between_pages": 2000,
-    "popup_close_attempts": 5
-  },
-  "output": {
-    "format": "xlsx",
-    "include_debug": true,
-    "auto_timestamp": true
+    "name": "Bizmeka Webmail",
+    "url": "https://bizmeka.com",
+    "login_url": "https://ezsso.bizmeka.com/loginForm.do"
   }
 }
